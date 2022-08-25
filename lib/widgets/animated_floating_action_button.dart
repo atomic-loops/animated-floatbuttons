@@ -1,19 +1,23 @@
-import 'package:animated_floating_buttons/widgets/transform_float_button.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:flutter/material.dart';
+
+import 'package:animated_floating_buttons/widgets/transform_float_button.dart';
 
 class AnimatedFloatingActionButton extends StatefulWidget {
   ///
   /// list of Floating Action Buttons.
   final List<Widget> fabButtons;
 
-  final AnimatedIconData animatedIconData;
+  // var icon1;
+  var icon2;
   final int durationAnimation;
   final Color colorStartAnimation;
-  final Color colorEndAnimation;
+  // final Color colorEndAnimation;
   final String? tooltip;
   final Curve curve;
   final double spaceBetween;
-
+  // final bool isopen = false;
   /// The [fabButtons] and [animatedIconData] arguments must not be null.
   /// The [durationAnimation], [colorStartAnimation], [colorEndAnimation],
   /// [curve] and [spaceBetween] default to the value given by the library
@@ -21,13 +25,14 @@ class AnimatedFloatingActionButton extends StatefulWidget {
   AnimatedFloatingActionButton({
     Key? key,
     required this.fabButtons,
-    required this.animatedIconData,
+    // required this.icon1,
+    required this.icon2,
     this.durationAnimation = 500,
     this.colorStartAnimation = Colors.blue,
-    this.colorEndAnimation = Colors.red,
+    // this.colorEndAnimation = Colors.red,
+    this.tooltip = 'toggle',
     this.curve = Curves.easeOut,
     this.spaceBetween = -5.0,
-    this.tooltip = 'toggle',
   })  : assert(
           durationAnimation > 150 && durationAnimation < 1250,
           'The duration of the animation should be '
@@ -55,9 +60,10 @@ class AnimatedFloatingActionButtonState
     with SingleTickerProviderStateMixin {
   /// AnimationController object to control over the whole animation.
   late AnimationController _animationController;
-  late Animation<Color?> _buttonColor;
+  // late Animation<Color?> _buttonColor;
   late Animation<double> _animateIcon;
   late Animation<double> _translateButton;
+  late Animation<double> _iconData;
   double _fabHeight = 56.0;
   bool _isOpened = false;
 
@@ -87,19 +93,29 @@ class AnimatedFloatingActionButtonState
     );
 
     /// This ColorTween is to animate the background Color of main FAB.
-    _buttonColor = ColorTween(
-      begin: widget.colorStartAnimation,
-      end: widget.colorEndAnimation,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Interval(
-          0.00,
-          1.00,
-          curve: Curves.linear,
-        ),
-      ),
-    );
+    // _buttonColor = ColorTween(
+    //   begin: widget.colorStartAnimation,
+    //   end: widget.colorEndAnimation,
+    // ).animate(
+    //   CurvedAnimation(
+    //     parent: _animationController,
+    //     curve: Interval(
+    //       0.00,
+    //       1.00,
+    //       curve: Curves.linear,
+    //     ),
+    //   ),
+    // );
+    // _iconData = Tween<double>(begin: Icon(), end: widget.icon2).animate(
+    //   CurvedAnimation(
+    //     parent: _animationController,
+    //     curve: Interval(
+    //       0.00,
+    //       1.00,
+    //       curve: Curves.linear,
+    //     ),
+    //   ),
+    // );
 
     /// This Tween is to animate position of the current fab
     /// according to its position in the list.
@@ -136,14 +152,17 @@ class AnimatedFloatingActionButtonState
 
   Widget _buildMainFAB() {
     return FloatingActionButton(
-      backgroundColor: _buttonColor.value,
-      onPressed: _animateFABs,
-      tooltip: widget.tooltip,
-      child: AnimatedIcon(
-        icon: widget.animatedIconData,
-        progress: _animateIcon,
-      ),
-    );
+        // materialTapTargetSize: MaterialTapTargetSize.values[8],
+        backgroundColor: widget.colorStartAnimation,
+        onPressed: _animateFABs,
+        tooltip: widget.tooltip,
+        child: AnimatedContainer(
+          duration: Duration(
+            milliseconds: widget.durationAnimation,
+          ),
+          decoration:
+              BoxDecoration(image: DecorationImage(image: widget.icon2)),
+        ));
   }
 
   List<Widget> _buildFABs() {

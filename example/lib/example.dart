@@ -62,13 +62,26 @@ class _ExamplePageState extends State<ExamplePage> {
       floatingActionButton: AnimatedFloatingActionButton(
         key: key,
         fabButtons: <Widget>[
-          add(),
-          image(),
-          inbox(),
+          float1(),
+          float1(),
         ],
         colorStartAnimation: Colors.blue,
-        colorEndAnimation: Colors.red,
-        animatedIconData: AnimatedIcons.menu_close,
+        // colorEndAnimation: Colors.red, icon1: AssetImage('assets/plus 1.png'),
+        icon2: AssetImage('assets/save 1.png'),
+        // icon1: AssetImage('assets/save 1.png'),
+        // animatedIconData: ,
+      ),
+    );
+  }
+
+  Widget float1() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Container(
+        height: 30,
+        width: 130,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50), color: Colors.blue),
       ),
     );
   }
